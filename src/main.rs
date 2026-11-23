@@ -1,3 +1,5 @@
+mod artwork;
+mod covers;
 mod detection;
 mod harmony;
 mod i18n;
