@@ -9,5 +9,6 @@ mod readers;
 #[cfg(test)]
 mod sample;
 mod theme;
+mod ui;
 
 fn main() {}
