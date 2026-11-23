@@ -23,6 +23,8 @@ pub fn show(
     let mut clicked = None;
 
     TableBuilder::new(ui)
+        // Sin esto el `TableBuilder` usa `Sense::hover()` y la fila no responde.
+        .sense(Sense::click())
         .striped(true)
         .resizable(true)
         .cell_layout(egui::Layout::left_to_right(Align::Center))
@@ -76,16 +78,21 @@ pub fn show(
                     covers.draw(ui, track, rect);
                 });
                 row.col(|ui| {
-                    ui.add(egui::Label::new(RichText::new(&track.title).strong()).truncate());
+                    ui.add(
+                        egui::Label::new(RichText::new(&track.title).strong())
+                            .truncate()
+                            .selectable(false),
+                    );
                 });
                 row.col(|ui| {
                     ui.add(
                         egui::Label::new(RichText::new(&track.artist).color(theme::TEXT_DIM))
-                            .truncate(),
+                            .truncate()
+                            .selectable(false),
                     );
                 });
                 row.col(|ui| {
-                    ui.label(format!("{:.1}", track.bpm));
+                    ui.add(egui::Label::new(format!("{:.1}", track.bpm)).selectable(false));
                 });
                 row.col(|ui| {
                     if let Some(key) = track.key {
@@ -95,7 +102,7 @@ pub fn show(
                     }
                 });
                 row.col(|ui| {
-                    ui.label(track.duration_label());
+                    ui.add(egui::Label::new(track.duration_label()).selectable(false));
                 });
 
                 if row.response().clicked() {
